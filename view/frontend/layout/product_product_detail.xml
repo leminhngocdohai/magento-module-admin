@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="1column" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <title>Detail Product</title>
+    </head>
+    <body>
+        <referenceContainer name="sidebar.additional" remove="true"/>
+        <referenceContainer name="content">
+            <block class="Aht\Product\Block\Widget\Detail" name="aht_widget_detail" template="widget/detail.phtml" />
+        </referenceContainer>
+    </body>
+</page>

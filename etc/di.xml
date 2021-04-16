@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!-- Configure our grid collection -->
+    <virtualType name="Aht\Product\Model\ResourceModel\Product\Grid\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">aht_product_index</argument>
+            <argument name="resourceModel" xsi:type="string">Aht\Product\Model\ResourceModel\Product</argument>
+            <argument name="eventPrefix" xsi:type="string">aht_product_grid_collection</argument>
+            <argument name="eventObject" xsi:type="string">field_grid_collection</argument>
+        </arguments>
+    </virtualType>
+
+    <!-- register our data source -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="aht_product_index_data_source" xsi:type="string">Aht\Product\Model\ResourceModel\Product\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- API -->
+    <preference for="Aht\Product\Api\Data\ProductInterface" type="Aht\Product\Model\Product"/>
+    <preference for="Aht\Product\Api\ProductRepositoryInterface" type="Aht\Product\Model\ProductRepository"/>
+
+</config>

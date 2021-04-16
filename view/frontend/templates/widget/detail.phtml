@@ -1,0 +1,14 @@
+<?php 
+    $item = $block->getEditRecord();
+    
+    $image = $block->_storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA) . 'product/index/' . $item['image'];
+?>
+
+<h2>Tên Sản Phẩm : <?= $item['name'] ?></h2>
+<div style="width: 400px;height: auto;">
+    <img class="img-fluid" src="<?= $image ?>" alt="">
+</div>
+<p>Description : <?= $item['description'] ?></p>
+<span style="color: red;">price : <?= $item['price'] ?> </span>
+<h4>Category : <?= $item['category_id'] ?></h4>
+<p> Created At : <?= $item['created_at'] ?></p>

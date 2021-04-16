@@ -1,0 +1,98 @@
+<?php
+
+//Config
+$items = $block->getDataBlocks();
+$helper = $block->_helperData;
+//Slide
+$statusSlide = $helper->getSlideConfig('enabled');
+$num = $helper->getSlideConfig('number');
+$numProductSlide = (isset($num)) ? $num : 4;
+$numScroll = $helper->getSlideConfig('scroll');
+$numProductSlideScroll = (isset($num)) ? $num : 1;
+//Product
+$numPrd = $helper->getProductConfig('number');
+$numProductPage = (isset($numPrd)) ? $numPrd : 8;
+$featured_prd = $helper->getProductConfig('featured');
+$count = 0;
+// die($num);
+?>
+
+<div class="products wrapper grid products-grid">
+    <ol class="products list items product-items <?php if($statusSlide == 1) echo "my-list"; ?>">
+        <?php foreach ($items as $item) : ?>
+            <?php if($featured_prd == 1) : ?>
+                <?php if($item['featured'] == 1) : ?>
+                    <?php $imagePath = $block->getUrlImagePrd($item, 'image') ?>
+                    <li class="item product product-item">
+                        <div class="product-item-info" data-container="product-grid">
+                            <a href="<?php echo $block->getUrl('product/product/detail') . 'id/' . $item['id']; ?>" class="product photo product-item-photo" tabindex="-1">
+                                <span class="product-image-container" style="width:240px;">
+                                    <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                        <img class="product-image-photo" src="<?php echo $imagePath  ?>" max-width="240" max-height="300" alt="Name of product"></span>
+                                </span>
+                            </a>
+                            <div class="product details product-item-details">
+                                <strong class="product name product-item-name">
+                                    <a class="product-item-link" href="<?php echo $block->getUrl('product/product/detail') . 'id/' . $item['id']; ?>">
+                                        <?= $item['name'] ?></a>
+                                </strong>
+                                <div class="price-box price-final_price" data-role="priceBox" data-product-id="436" data-price-box="product-id-436"><span class="normal-price">
+                                        <span class="price-container price-final_price tax weee">
+                                            <span class="price-label">Giá : <?= $item['price'] ?></span>
+                                            <span id="product-price-436" data-price-amount="45" data-price-type="finalPrice" class="price-wrapper "><span class="price"><?= $item['description'] ?></span></span>
+                                        </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                <?php 
+                if(++$count >= $numPrd) break;
+                ?>
+                <?php endif; ?>
+            <?php else: ?>
+                <?php $imagePath = $block->getUrlImagePrd($item, 'image') ?>
+                <li class="item product product-item">
+                    <div class="product-item-info" data-container="product-grid">
+                        <a href="<?php echo $block->getUrl('product/product/detail') . 'id/' . $item['id']; ?>" class="product photo product-item-photo" tabindex="-1">
+                            <span class="product-image-container" style="width:240px;">
+                                <span class="product-image-wrapper" style="padding-bottom: 125%;">
+                                    <img class="product-image-photo" src="<?php echo $imagePath  ?>" max-width="240" max-height="300" alt="Name of product"></span>
+                            </span>
+                        </a>
+                        <div class="product details product-item-details">
+                            <strong class="product name product-item-name">
+                                <a class="product-item-link" href="<?php echo $block->getUrl('product/product/detail') . 'id/' . $item['id']; ?>">
+                                    <?= $item['name'] ?></a>
+                            </strong>
+                            <div class="price-box price-final_price" data-role="priceBox" data-product-id="436" data-price-box="product-id-436"><span class="normal-price">
+                                    <span class="price-container price-final_price tax weee">
+                                        <span class="price-label">Giá : <?= $item['price'] ?></span>
+                                        <span id="product-price-436" data-price-amount="45" data-price-type="finalPrice" class="price-wrapper "><span class="price"><?= $item['description'] ?></span></span>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </ol>
+</div>
+
+
+<script type="text/javascript">
+    require(['jquery', 'slick'], function($) {
+        $(function() {
+            $('.my-list').slick({
+                dots: true,
+                infinite: true,
+                autoplay : true,
+                autoplaySpeed: 2000,
+                slidesToShow: <?= $numProductSlide ?>,
+                slidesToScroll: <?= $numProductSlideScroll ?>,
+                arrows: true
+            });
+        });
+    });
+</script>

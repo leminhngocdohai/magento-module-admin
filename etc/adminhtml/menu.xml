@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add 
+          id="Aht_Product::index" 
+          title="Sản Phẩm" 
+          translate="title" 
+          module="Aht_Product" 
+          sortOrder="50" 
+          dependsOnModule="Aht_Product" 
+          resource="Aht_Product::index"
+        />
+        <add 
+          id="Aht_Product::index_product" 
+          title="Product Item" 
+          translate="title" 
+          module="Aht_Product"
+          parent="Aht_Product::index" 
+          sortOrder="10"
+          dependsOnModule="Aht_Product" 
+          action="product/product" 
+          resource="Aht_Product::index_product"
+        />
+    </menu>
+</config>

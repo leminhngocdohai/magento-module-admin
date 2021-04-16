@@ -1,0 +1,69 @@
+<widgets xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Widget:etc/widget.xsd">
+    <widget class="Aht\Product\Block\Widget\Product" id="orange_test_widget">
+        <label translate="true">Featured Product</label>
+        <description translate="true">This is a test widget!!!</description>
+        <parameters>
+            <parameter name="display_type" xsi:type="select" required="true" visible="true">
+                <label translate="true">Use Slide</label>
+                <description translate="true">Select Slide or List</description>
+                <options>
+                    <option name="default" value="slide_products" selected="true">
+                        <label translate="true">Slide</label>
+                    </option>
+                    <option name="item" value="list_products">
+                        <label translate="true">List</label>
+                    </option>
+                </options>
+            </parameter>
+            <parameter name="products_per_slide" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products per Slide</label>
+                <depends>
+                    <parameter name="display_type" value="slide_products" />
+                </depends>
+                <value>5</value>
+            </parameter>
+            <parameter name="products_scroll_slide" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products Scroll per Slide</label>
+                <depends>
+                    <parameter name="display_type" value="slide_products" />
+                </depends>
+                <value>4</value>
+            </parameter>
+            <parameter name="time_scroll_slide" xsi:type="text" required="true" visible="true">
+                <label translate="true">Time of Products Scroll per Slide (giây)</label>
+                <depends>
+                    <parameter name="display_type" value="slide_products" />
+                </depends>
+                <value>4</value>
+            </parameter>
+
+            <parameter name="featured" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Featured Product</label>
+            </parameter>
+
+            <parameter name="show_pager" xsi:type="select" visible="true" source_model="Magento\Config\Model\Config\Source\Yesno">
+                <label translate="true">Display Page Control</label>
+            </parameter>
+            <parameter name="products_per_page" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products per Page</label>
+                <depends>
+                    <parameter name="show_pager" value="1" />
+                </depends>
+                <value>5</value>
+            </parameter>
+
+            <parameter name="products_count" xsi:type="text" required="true" visible="true">
+                <label translate="true">Number of Products to Display</label>
+                <value>10</value>
+            </parameter>
+            <parameter name="template" xsi:type="select" required="true" visible="true">
+                <label translate="true">Template</label>
+                <options>
+                    <option name="default" value="widget/home.phtml" selected="true">
+                        <label translate="true">Featured Products Grid Template</label>
+                    </option>
+                </options>
+            </parameter>
+        </parameters>
+    </widget>
+</widgets>
