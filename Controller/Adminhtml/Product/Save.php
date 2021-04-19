@@ -41,6 +41,8 @@ class Save extends Product implements HttpPostActionInterface
     protected $imageUploader;
     protected $_file;
 
+    protected $_dir;
+
     /**
      * @param Context $context
      * @param Registry $coreRegistry
@@ -56,7 +58,8 @@ class Save extends Product implements HttpPostActionInterface
         ProductFactory $blockFactory = null,
         ImageUploader $imageUploader,
         ProductRepositoryInterface $blockRepository = null,
-        File $file
+        File $file,
+        \Magento\Framework\Filesystem\DirectoryList $dir
     ) {
         $this->dataPersistor = $dataPersistor;
         $this->blockFactory = $blockFactory
@@ -65,6 +68,7 @@ class Save extends Product implements HttpPostActionInterface
             ?: \Magento\Framework\App\ObjectManager::getInstance()->get(ProductRepositoryInterface::class);
         $this->imageUploader = $imageUploader;
         $this->_file = $file;
+        $this->_dir = $dir;
         parent::__construct($context, $coreRegistry);
     }
     /**
@@ -76,8 +80,7 @@ class Save extends Product implements HttpPostActionInterface
     public function execute()
     {
         /** get dir file */
-        $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
-        $mediaRootDir = $mediaDirectory->getAbsolutePath();
+        $mediaDirectory = $this->_dir->getPath('media');
 
         /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
         $resultRedirect = $this->resultRedirectFactory->create();
@@ -93,7 +96,7 @@ class Save extends Product implements HttpPostActionInterface
                 try {
                     $model = $this->blockRepository->getById($id);
                     //delete Image
-                    $pathImg = $mediaRootDir . "product/index/" . $model->load($id)->getImage();
+                    $pathImg = $mediaDirectory . "/product/index/" . $model->load($id)->getImage();
                     if ($this->_file->isExists($pathImg)) {
                         ($model->load($id)->getImage() == 'no-img.png') ?: $this->_file->deleteFile($pathImg);
                     }

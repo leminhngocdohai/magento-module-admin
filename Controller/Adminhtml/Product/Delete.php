@@ -3,19 +3,26 @@ namespace Aht\Product\Controller\Adminhtml\Product;
 
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\Filesystem\Driver\File;
+use Aht\Product\Model\ProductFactory;
 
 class Delete extends \Magento\Backend\App\Action
 {
     protected $storeManager;
     protected $imageUploader;
     protected $_file;
+    protected $_product;
+    protected $_dir;
 
     public function __construct(
         Context $context,
-        File $file
+        File $file,
+        ProductFactory $product,
+        \Magento\Framework\Filesystem\DirectoryList $dir
     ) {
         $this->_file = $file;
+        $this->_product = $product;
         parent::__construct($context);
+        $this->_dir = $dir;
     }
 
     /**
@@ -25,21 +32,17 @@ class Delete extends \Magento\Backend\App\Action
      */
     public function execute()
     {
-        $bannerId = (int)$this->getRequest()->getParam('id');
-        /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
+        $id = (int)$this->getRequest()->getParam('id');
         $resultRedirect = $this->resultRedirectFactory->create();
-        if ($bannerId && (int) $bannerId > 0) {
+
+        if ($id && (int) $id > 0) {
             try {
-                $model = $this->_objectManager->create('Aht\Product\Model\Product');
-                $model->load($bannerId);
-
+                $model = $this->_product->create()->load($id);
                 //delete Image
-                $mediaDirectory = $this->_objectManager->get('Magento\Framework\Filesystem')->getDirectoryRead(\Magento\Framework\App\Filesystem\DirectoryList::MEDIA);
-                $mediaRootDir = $mediaDirectory->getAbsolutePath();
-
-                $pathImg = $mediaRootDir . "product/index/" . $model->load($bannerId)->getImage();
+                $mediaDirectory = $this->_dir->getPath('media');
+                $pathImg = $mediaDirectory . "/product/index/" . $model->getImage();
                 if ($this->_file->isExists($pathImg)) {
-                    ($model->load($bannerId)->getImage() == 'no-img.png') ?: $this->_file->deleteFile($pathImg);
+                    ($model->getImage() == 'no-img.png') ?: $this->_file->deleteFile($pathImg);
                 }
                 //delete Model
                 $model->delete();
